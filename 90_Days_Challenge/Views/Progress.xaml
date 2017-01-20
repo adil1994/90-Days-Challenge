@@ -1,0 +1,272 @@
+﻿<Page x:Class="_90_Days_Challenge.Views.Progress"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:data="using:_90_Days_Challenge.Models"
+      xmlns:local="using:_90_Days_Challenge.Views"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:my="using:Syncfusion.UI.Xaml.Charts"
+      xmlns:syncfusion="using:Syncfusion.UI.Xaml.Charts"
+      mc:Ignorable="d">
+
+    <Grid Margin="20" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="progressbars" Background="#4C4A48">
+            <Grid Margin="20" Loaded="Grid_Loaded">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Name="CompletoTesto"
+                           Margin="20 0 20 0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="White"
+                           Text="General : " />
+                <ProgressBar Name="ProgressBar_Complete"
+                             Grid.Column="1"
+                             Height="10"
+                             VerticalAlignment="Center"
+                             Foreground="#00B294"
+                             Maximum="100"
+                             Value="50" />
+
+
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="White"
+                           Text="Legs : " />
+                <ProgressBar Name="ProgressBar_Legs"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Height="10"
+                             VerticalAlignment="Center"
+                             Foreground="#00B294"
+                             Value="30" />
+
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="White"
+                           Text="Arms : " />
+                <ProgressBar Name="ProgressBar_Arms"
+                             Grid.Row="2"
+                             Grid.Column="1"
+                             Height="10"
+                             VerticalAlignment="Center"
+                             Foreground="#00B294"
+                             Value="64" />
+
+                <TextBlock Grid.Row="3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="White"
+                           Text="Chest : " />
+                <ProgressBar Name="ProgressBar_Chest"
+                             Grid.Row="3"
+                             Grid.Column="1"
+                             Height="10"
+                             VerticalAlignment="Center"
+                             Foreground="#00B294"
+                             Value="10" />
+
+                <TextBlock Grid.Row="4"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="White"
+                           Text="Back : " />
+                <ProgressBar Name="ProgressBar_Back"
+                             Grid.Row="4"
+                             Grid.Column="1"
+                             Height="10"
+                             VerticalAlignment="Center"
+                             Foreground="#00B294"
+                             Value="60" />
+
+                <TextBlock Grid.Row="5"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="White"
+                           Text="Abs : " />
+                <ProgressBar Name="ProgressBar_Abs"
+                             Grid.Row="5"
+                             Grid.Column="1"
+                             Height="10"
+                             VerticalAlignment="Center"
+                             Foreground="#00B294"
+                             Value="40" />
+            </Grid>
+        </Grid>
+
+
+        <Grid Name="plansprogress"
+              Grid.Column="1"
+              Background="#4C4A48">
+
+            <syncfusion:SfChart Margin="10"
+                                AreaBackground="White"
+                                Background="White"
+                                Header="Plan's Progress">
+
+
+
+
+                <syncfusion:SfChart.PrimaryAxis>
+                    <syncfusion:NumericalAxis Header="Days" />
+                </syncfusion:SfChart.PrimaryAxis>
+
+
+                <syncfusion:SfChart.SecondaryAxis>
+                    <syncfusion:NumericalAxis Header="Progress" />
+                </syncfusion:SfChart.SecondaryAxis>
+
+                <syncfusion:SfChart.Legend>
+                    <syncfusion:ChartLegend Visibility="Visible" />
+                </syncfusion:SfChart.Legend>
+
+                <syncfusion:FastLineSeries EnableAnimation="True"
+                                           ItemsSource="{x:Bind daysProgress}"
+                                           Label="complete"
+                                           XBindingPath="DayNumber"
+                                           YBindingPath="CompleteProgress" />
+
+                <syncfusion:FastLineSeries EnableAnimation="True"
+                                           ItemsSource="{x:Bind daysProgress}"
+                                           Label="abs"
+                                           XBindingPath="DayNumber"
+                                           YBindingPath="AbsProgress" />
+
+                <syncfusion:FastLineSeries EnableAnimation="True"
+                                           ItemsSource="{x:Bind daysProgress}"
+                                           Label="Chest"
+                                           XBindingPath="DayNumber"
+                                           YBindingPath="ChestProgress" />
+
+                <syncfusion:FastLineSeries EnableAnimation="True"
+                                           ItemsSource="{x:Bind daysProgress}"
+                                           Label="Back"
+                                           XBindingPath="DayNumber"
+                                           YBindingPath="BackProgress" />
+                <syncfusion:FastLineSeries EnableAnimation="True"
+                                           ItemsSource="{x:Bind daysProgress}"
+                                           Label="Legs"
+                                           XBindingPath="DayNumber"
+                                           YBindingPath="LegsProgress" />
+                <syncfusion:FastLineSeries EnableAnimation="True"
+                                           ItemsSource="{x:Bind daysProgress}"
+                                           Label="Arms"
+                                           XBindingPath="DayNumber"
+                                           YBindingPath="ArmsProgress" />
+
+
+
+            </syncfusion:SfChart>
+
+        </Grid>
+
+
+        <Grid Name="bmihistory"
+              Grid.Row="1"
+              Grid.Column="0"
+              Background="#4C4A48">
+            <syncfusion:SfChart Margin="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                AreaBackground="White"
+                                Background="White"
+                                Header="BMI History"
+                                Padding="0 0 10 0">
+                <!--  Initialize the horizontal axis for SfChart  -->
+                <syncfusion:SfChart.PrimaryAxis>
+                    <syncfusion:CategoryAxis FontSize="14" Header="Days" />
+                </syncfusion:SfChart.PrimaryAxis>
+
+
+                <!--  Initialize the vertical axis for SfChart  -->
+                <syncfusion:SfChart.SecondaryAxis>
+                    <syncfusion:NumericalAxis FontSize="14" Header="BMI Value" />
+                </syncfusion:SfChart.SecondaryAxis>
+
+
+                <!--  Adding Legend to the SfChart  -->
+                <syncfusion:SfChart.Legend>
+                    <syncfusion:ChartLegend Visibility="Visible" />
+                </syncfusion:SfChart.Legend>
+
+
+                <!--  Initialize the series for SfChart  -->
+
+                <syncfusion:LineSeries EnableAnimation="True"
+                                       ItemsSource="{x:Bind bmiHistory}"
+                                       Label="Productivity"
+                                       XBindingPath="Bmi_Date"
+                                       YBindingPath="Bmi_Result" />
+
+            </syncfusion:SfChart>
+        </Grid>
+
+        <Grid Name="productivitychart"
+              Grid.Row="1"
+              Grid.Column="1"
+              Background="#4C4A48">
+
+            <syncfusion:SfChart Margin="10"
+                                AreaBackground="White"
+                                Background="White"
+                                Header="Productivity Chart">
+
+                <syncfusion:SfChart.PrimaryAxis>
+                    <syncfusion:NumericalAxis Header="Days" />
+                </syncfusion:SfChart.PrimaryAxis>
+
+
+                <syncfusion:SfChart.SecondaryAxis>
+                    <syncfusion:NumericalAxis Header="Productivity" />
+                </syncfusion:SfChart.SecondaryAxis>
+
+                <syncfusion:SfChart.Legend>
+                    <syncfusion:ChartLegend Visibility="Visible" />
+                </syncfusion:SfChart.Legend>
+
+
+                <syncfusion:SplineAreaSeries EnableAnimation="True"
+                                             Interior="#7F7F7F"
+                                             ItemsSource="{x:Bind daysProductivity}"
+                                             Label="Productivity"
+                                             XBindingPath="Day"
+                                             YBindingPath="Productivity" />
+
+            </syncfusion:SfChart>
+        </Grid>
+
+    </Grid>
+</Page>

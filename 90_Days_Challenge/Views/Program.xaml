@@ -1,0 +1,196 @@
+﻿<Page x:Class="_90_Days_Challenge.Views.Program"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:data="using:_90_Days_Challenge.Models"
+      xmlns:local="using:_90_Days_Challenge.Views"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <local:TextConverter x:Key="TextConverter" x:Name="TextConverter" />
+        <local:DurationTextConverter x:Key="DurationTextConverter" x:Name="DTextConverter" />
+        <local:CountTextConverter x:Key="CountTextConverter" x:Name="CTextConverter" />
+
+
+        <DataTemplate x:Name="SetTemplate" x:DataType="data:Set">
+            <Grid Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="20 0 0 0"
+                           FontSize="18"
+                           Foreground="White"
+                           Text="{x:Bind Set_type}"
+                           TextWrapping="Wrap" />
+                <TextBlock Grid.Column="1"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           Foreground="White"
+                           Text="{x:Bind Set_Duration, Converter={StaticResource DurationTextConverter}}"
+                           TextWrapping="Wrap" />
+                <TextBlock Grid.Column="2"
+                           Margin="20 0 0 0"
+                           FontSize="18"
+                           Foreground="White"
+                           Text="{x:Bind Set_Count, Converter={StaticResource CountTextConverter}}"
+                           TextWrapping="Wrap" />
+                <ProgressBar Grid.Column="3"
+                             Height="20"
+                             Margin="20 0 0 0"
+                             VerticalAlignment="Center"
+                             Foreground="White"
+                             Maximum="100"
+                             Value="{x:Bind Set_Progress}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="dayTemplate" x:DataType="data:Day">
+            <StackPanel x:Name="stackpanellist"
+                        Margin="0 10 0 0"
+                        Orientation="Horizontal">
+                <Image Width="50"
+                       Height="50"
+                       Margin="10 0 10 0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="ms-appx:///Assets/DaysIcons/daycomplete.png"
+                       Stretch="UniformToFill" />
+
+                <TextBlock Margin="20 0 20 0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           Foreground="White"
+                           Text="{x:Bind Day_Number, Converter={StaticResource TextConverter}}" />
+            </StackPanel>
+
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <ListView Name="DaysGrid"
+                  IsItemClickEnabled="True"
+                  ItemClick="GridView_ItemClick"
+                  ItemTemplate="{StaticResource dayTemplate}"
+                  ItemsSource="{x:Bind Days}" />
+
+        <Grid Grid.Column="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ListView IsItemClickEnabled="True"
+                      ItemClick="ListView_ItemClick"
+                      ItemTemplate="{StaticResource SetTemplate}"
+                      ItemsSource="{x:Bind Sets}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+            <Grid Grid.Row="1"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button Name="stopTimerButton"
+                        Margin="0 20 0 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="stopTimerButton_Click"
+                        FontSize="14"
+                        Foreground="Gray"
+                        Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="18"
+                                   Foreground="White"
+                                   Text="&#xE004;" />
+                        <TextBlock Margin="10 0 0 0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="Stop Timer" />
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Name="timerText"
+                           Grid.RowSpan="2"
+                           Grid.Column="1"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           FontSize="76"
+                           Foreground="White"
+                           Text="00:00" />
+
+                <Button Name="finishSetButton"
+                        Grid.Row="1"
+                        Margin="0 20 0 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="finishSetButton_Click"
+                        FontSize="14"
+                        Foreground="Gray"
+                        Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="18"
+                                   Foreground="White"
+                                   Text="&#xE10B;" />
+                        <TextBlock Margin="10 0 0 0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="Finish Set" />
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Name="temporaryTimerMessage"
+                           Grid.Row="2"
+                           Margin="10"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           Foreground="Gray"
+                           Text="Click on an Set to start the timer"
+                           TextWrapping="Wrap" />
+            </Grid>
+
+
+
+        </Grid>
+
+
+
+
+
+    </Grid>
+</Page>

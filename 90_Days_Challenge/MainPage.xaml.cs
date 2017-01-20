@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _90_Days_Challenge.Models;
+using _90_Days_Challenge.Views;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +24,30 @@ namespace _90_Days_Challenge
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public SQLite.Net.SQLiteConnection conn { get; set; }
+         
         public MainPage()
         {
             this.InitializeComponent();
+            string path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "db_90dayschallenge.sqlite");
+            conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), path);
+            App.db = conn;
+            MainFrame.Navigate(typeof(MainHome));
+        }
+
+        private void HomeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(MainHome),conn);
+        }
+
+        private void ProgressButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(Progress), conn);
+        }
+
+        private void ProgramButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(Home), conn);
         }
     }
 }

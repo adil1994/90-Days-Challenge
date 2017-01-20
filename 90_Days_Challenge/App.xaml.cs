@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite.Net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,11 +24,12 @@ namespace _90_Days_Challenge
     /// </summary>
     sealed partial class App : Application
     {
+        internal static SQLiteConnection db;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        public App()
+        public  App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -37,14 +40,9 @@ namespace _90_Days_Challenge
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = true;
-            }
-#endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -77,6 +75,31 @@ namespace _90_Days_Challenge
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+
+            StorageFile dbfile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Data/db.sqlite"));
+
+            var item = await ApplicationData.Current.LocalFolder.TryGetItemAsync("db_90dayschallenge.sqlite");
+            if(item!=null)
+            {
+                var basicProperties = await item.GetBasicPropertiesAsync();
+                DateTime d = DateTime.Now;
+                  if(basicProperties.Size<100)
+                {
+                    await dbfile.CopyAsync(ApplicationData.Current.LocalFolder, "db_90dayschallenge.sqlite", NameCollisionOption.ReplaceExisting);
+                }
+            }
+            else
+            {
+                try
+                {
+                    await dbfile.CopyAsync(ApplicationData.Current.LocalFolder, "db_90dayschallenge.sqlite", NameCollisionOption.ReplaceExisting);
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         /// <summary>
@@ -102,5 +125,7 @@ namespace _90_Days_Challenge
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+       
     }
 }

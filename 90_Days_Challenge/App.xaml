@@ -1,8 +1,5 @@
-﻿<Application
-    x:Class="_90_Days_Challenge.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:_90_Days_Challenge"
-    RequestedTheme="Light">
-
-</Application>
+﻿<Application x:Class="_90_Days_Challenge.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:_90_Days_Challenge"
+             RequestedTheme="Light" />
